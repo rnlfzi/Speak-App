@@ -4,7 +4,8 @@ import Lottie from "lottie-react";
 import animation from "./assets/anim.json";
 import { useSpeechSynthesis } from "react-speech-kit";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import { amber } from "@mui/material/colors";
+import { pink } from "@mui/material/colors";
+import Img from "./components/Img";
 
 const App = () => {
   const { speak } = useSpeechSynthesis();
@@ -19,16 +20,23 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <Box sx={{ display: "grid", justifyContent: "center" }}>
+    <Container className="responsive" sx={{ height: "100vh" }}>
+      <Box
+        sx={{
+          position: "relative",
+          display: "grid",
+          justifyContent: "center",
+          zIndex: 10,
+        }}
+      >
         <Lottie animationData={animation} loop={true} />
         <Typography
           sx={{
             mb: 2,
             textAlign: "center",
             fontSize: "35px",
-            color: amber[500],
-            bgcolor: amber[50],
+            color: "white",
+            fontWeight: "bold",
             borderRadius: "50px",
           }}
         >
@@ -43,10 +51,20 @@ const App = () => {
           value={data}
           onChange={(e) => setData(e.target.value)}
         />
-        <Button sx={{ mt: 2 }} onClick={handleClick}>
+        <Typography sx={{ m: 1, color: "white" }}>
+          {data.length > 3 ? "" : "*Setidaknya masukan beberapa kata"}
+        </Typography>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{ mb: 5, bgcolor: pink[300], ":hover": { bgcolor: pink[500] } }}
+          disabled={data.length > 3 ? false : true}
+          onClick={handleClick}
+        >
           Submit
         </Button>
       </Box>
+      <Img />
     </Container>
   );
 };
