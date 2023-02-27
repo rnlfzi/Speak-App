@@ -1,71 +1,21 @@
 import React from "react";
-import { Container, TextField, Box, Button, Typography } from "@mui/material";
-import Lottie from "lottie-react";
-import animation from "./assets/anim.json";
-import { useSpeechSynthesis } from "react-speech-kit";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import { pink } from "@mui/material/colors";
-import Img from "./components/Img";
+import { Route, Routes } from "react-router-dom";
+import Loader from "./components/Loader";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
-  const { speak } = useSpeechSynthesis();
-  const [data, setData] = React.useState("");
-  const greating = "semangat ya hari ini, jangan lupa makan dan istirahat";
+  const [loading, setLoading] = React.useState(true)
 
-  const handleClick = () => {
-    speak({ text: `Hallo ${data}, ${greating}` });
+  React.useEffect(() => {
     setTimeout(() => {
-      setData("");
-    }, 7000);
-  };
+      setLoading(false)
+    }, 2000)
+  })
 
   return (
-    <Container className="responsive" sx={{ height: "100vh" }}>
-      <Box
-        sx={{
-          position: "relative",
-          display: "grid",
-          justifyContent: "center",
-          zIndex: 10,
-        }}
-      >
-        <Lottie animationData={animation} loop={true} />
-        <Typography
-          sx={{
-            mb: 2,
-            textAlign: "center",
-            fontSize: "35px",
-            color: "white",
-            fontWeight: "bold",
-            borderRadius: "50px",
-          }}
-        >
-          <WbSunnyIcon />
-          {"  "}Hai and Hello,
-        </Typography>
-        <TextField
-          label="Isi dengan nama kamu"
-          color="secondary"
-          fullWidth
-          focused
-          value={data}
-          onChange={(e) => setData(e.target.value)}
-        />
-        <Typography sx={{ m: 1, color: "white" }}>
-          {data.length > 3 ? "" : "*Setidaknya masukan beberapa kata"}
-        </Typography>
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{ mb: 5, bgcolor: pink[300], ":hover": { bgcolor: pink[500] } }}
-          disabled={data.length > 3 ? false : true}
-          onClick={handleClick}
-        >
-          Submit
-        </Button>
-      </Box>
-      <Img />
-    </Container>
+    <Routes>
+      <Route path="/" element={ loading ? <Loader /> : <HomePage />} />
+    </Routes>
   );
 };
 
